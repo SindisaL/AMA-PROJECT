@@ -1,0 +1,27 @@
+# Node / frontend
+node_modules/
+dist/
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Local database / runtime files
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE / OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# RSR operational data
+*.xlsx
