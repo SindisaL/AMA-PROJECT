@@ -69,7 +69,7 @@ export default function Login({ onLoginSuccess }) {
         {/* Branding row */}
         <div className="login-brand">
           <img src="/rsr-logo.png" alt="RSR Logo" className="login-logo" />
-          <span className="login-brand-title">Asset Desk</span>
+          <span className="login-brand-title">Asset Manifest</span>
         </div>
 
         <p className="login-subtitle">Sign in to manage ICT assets</p>

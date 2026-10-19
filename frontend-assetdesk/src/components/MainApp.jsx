@@ -370,7 +370,9 @@ export default function MainApp({ auth, onLogout }) {
       try {
         const errBody = await res.json();
         if (errBody?.detail) msg = errBody.detail;
-      } catch (_) { }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
       throw new Error(msg);
     }
 
@@ -1262,7 +1264,7 @@ export default function MainApp({ auth, onLogout }) {
   /* ---------------- Reports Data ---------------- */
   const total = assets.length;
 
-  const inUseCount = assets.filter((a) => (a.status || "").toLowerCase().trim() === "in use").length;
+  const inUseCount = assets.filter((a) => (a.status || "").toLowerCase().trim() === "active").length;
   const availableCount = assets.filter((a) => (a.status || "").toLowerCase().trim() === "available").length;
   const inRepairCount = assets.filter((a) => (a.status || "").toLowerCase().includes("repair")).length;
   const lostCount = assets.filter((a) => (a.status || "").toLowerCase().includes("lost")).length;
@@ -1274,7 +1276,7 @@ export default function MainApp({ auth, onLogout }) {
     let base = assets;
 
     if (statusFilter === "IN_USE") {
-      base = base.filter((a) => (a.status || "").toLowerCase().trim() === "in use");
+      base = base.filter((a) => (a.status || "").toLowerCase().trim() === "active");
     } else if (statusFilter === "AVAILABLE") {
       base = base.filter((a) => (a.status || "").toLowerCase().trim() === "available");
     } else if (statusFilter === "DISPOSAL") {
@@ -1348,7 +1350,7 @@ export default function MainApp({ auth, onLogout }) {
       <header className="topbar">
         <div className="logo-section">
           <img src="/rsr-logo.png" alt="RSR Logo" className="rsr-logo" />
-          <h1 className="logo-text">Asset Desk</h1>
+          <h1 className="logo-text">Asset Manifest</h1>
         </div>
 
         <nav className="top-tabs" role="tablist" aria-label="Main sections">
@@ -1425,7 +1427,7 @@ export default function MainApp({ auth, onLogout }) {
                 </div>
 
                 <StatCard title="Total Assets" value={total} className="neutral" onClick={() => openAssetsWithFilter("ALL")} />
-                <StatCard title="In Use" value={inUseCount} className="success" onClick={() => openAssetsWithFilter("IN_USE")} />
+                <StatCard title="Active" value={inUseCount} className="success" onClick={() => openAssetsWithFilter("IN_USE")} />
                 <StatCard title="Available" value={availableCount} className="info" onClick={() => openAssetsWithFilter("AVAILABLE")} />
                 <StatCard title="Due for Disposal" value={dueForDisposalCount} className="danger" onClick={() => openAssetsWithFilter("DISPOSAL")} />
                 <StatCard title="In Repair" value={inRepairCount} className="warn" onClick={() => openAssetsWithFilter("REPAIR")} />
