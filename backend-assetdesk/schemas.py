@@ -13,6 +13,8 @@ class AssetBase(BaseModel):
     model: Optional[str] = None
     serial_number: Optional[str] = None
     hostname: Optional[str] = None
+    asset_name: Optional[str] = None
+    asset_type: Optional[str] = None
 
     status: Optional[str] = "In Use"
     assigned_to: Optional[str] = None
@@ -41,10 +43,38 @@ class AssetUpdate(BaseModel):
     serial_number: Optional[str] = None
     hostname: Optional[str] = None
 
+    asset_name: Optional[str] = None
+    asset_type: Optional[str] = None
+
     status: Optional[str] = None
     assigned_to: Optional[str] = None
     department: Optional[str] = None
     location: Optional[str] = None
+
+    region: Optional[str] = None
+    office_location: Optional[str] = None
+
+    operational_condition: Optional[str] = None
+    physical_condition: Optional[str] = None
+    condition_comments: Optional[str] = None
+
+    verification_date: Optional[date] = None
+    verification_type: Optional[str] = None
+
+    asset_name: Optional[str] = None
+    asset_type: Optional[str] = None
+
+    region: Optional[str] = None
+    office_location: Optional[str] = None
+
+    operational_condition: Optional[str] = None
+    physical_condition: Optional[str] = None
+    condition_comments: Optional[str] = None
+
+    verification_date: Optional[date] = None
+    verification_type: Optional[str] = None
+
+    # -------------------------------------------------
 
     purchase_date: Optional[date] = None
     warranty_expiry: Optional[date] = None
@@ -57,9 +87,9 @@ class AssetUpdate(BaseModel):
 class AssetRead(AssetBase):
     id: int
     life_remaining_percent: Optional[int] = None
+    registered_by: Optional[str] = None
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 
 # ==========================
@@ -83,8 +113,7 @@ class AssetEventRead(AssetEventBase):
     id: int
     asset_id: int
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 # ==========================
 # User / Auth Schemas
@@ -109,8 +138,7 @@ class UserRead(UserBase):
     role: str  # <-- ADD THIS LINE
 
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 
 class Token(BaseModel):

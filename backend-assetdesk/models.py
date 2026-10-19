@@ -22,16 +22,38 @@ class Asset(Base):
     id = Column(Integer, primary_key=True, index=True)
     asset_tag = Column(String, nullable=False, index=True)
     category = Column(String, nullable=False)
+
+    # Asset identification
+    asset_name = Column(String)
+    asset_type = Column(String)
+
     brand = Column(String)
     model = Column(String)
     serial_number = Column(String, index=True)
     hostname = Column(String)
 
+# Update up to here
     status = Column(String, nullable=False, default="In Use")
     assigned_to = Column(String)
     department = Column(String)
     location = Column(String)
 
+    # Detailed asset location
+    region = Column(String)
+    office_location = Column(String)
+
+    # Asset condition
+    operational_condition = Column(String)
+    physical_condition = Column(String)
+    condition_comments = Column(Text)
+
+    # Asset verification
+    verification_date = Column(Date)
+    verification_type = Column(String)
+
+    # Registration audit
+    registered_by = Column(String)
+# --------------------------------------------------------------
     purchase_date = Column(Date)
     warranty_expiry = Column(Date)
     cost = Column(Float)
