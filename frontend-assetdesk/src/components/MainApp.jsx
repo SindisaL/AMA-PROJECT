@@ -101,7 +101,8 @@ const mapBackendAsset = (asset) => ({
   description:
     `${asset.brand ?? ""} ${asset.model ?? ""}`.trim() || asset.category || "",
   user: asset.assigned_to || "",
-  department: asset.department || "",
+  department: asset.department || asset.office_location || "",
+  region: asset.region || "",
   location: asset.location || "",
   status: asset.status || "In Use",
   type: asset.category || "",
@@ -1904,7 +1905,7 @@ export default function MainApp({ auth, onLogout }) {
                       <th>Description</th>
                       <th>User</th>
                       <th>Department</th>
-                      <th>Location</th>
+                      <th>Region</th>
                       <th>Type</th>
                       <th>Serial</th>
                       <th>Value (ZAR)</th>
@@ -1924,8 +1925,8 @@ export default function MainApp({ auth, onLogout }) {
                           <td>{asset.id}</td>
                           <td>{asset.description}</td>
                           <td>{asset.user}</td>
-                          <td>{asset.department || "—"}</td>
-                          <td>{asset.location}</td>
+                          <td>{asset.location || "—"}</td>
+                          <td>{asset.region || "—"}</td>
                           <td>{asset.type}</td>
                           <td>{asset.serial || "—"}</td>
                           <td>{fmtZAR(asset.value)}</td>

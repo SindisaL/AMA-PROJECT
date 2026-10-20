@@ -20,7 +20,9 @@ class AssetBase(BaseModel):
     assigned_to: Optional[str] = None
     department: Optional[str] = None
     location: Optional[str] = None
-
+    region: Optional[str] = None
+    office_location: Optional[str] = None
+    
     purchase_date: Optional[date] = None
     warranty_expiry: Optional[date] = None
     cost: Optional[float] = None
