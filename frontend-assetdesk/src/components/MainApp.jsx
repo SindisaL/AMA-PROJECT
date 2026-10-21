@@ -312,8 +312,18 @@ export default function MainApp({ auth, onLogout }) {
   async function fetchAssets() {
     try {
       setError("");
-      const res = await fetch(`${API_BASE}/assets`, { headers: authHeaders() });
-      if (!res.ok) throw new Error("Failed to fetch assets");
+      const res = await fetch(`${API_BASE}/assets`, {
+        headers: authHeaders(),
+      });
+
+      if (res.status === 401) {
+        onLogout?.();
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch assets");
+      }
       const data = await res.json();
       setAssets(Array.isArray(data) ? data.map(mapBackendAsset) : []);
     } catch (err) {
@@ -365,6 +375,11 @@ export default function MainApp({ auth, onLogout }) {
       headers: authHeaders({ "Content-Type": "application/json" }),
       body: JSON.stringify(payload),
     });
+
+    if (res.status === 401) {
+      onLogout?.();
+      return null;
+    }
 
     if (!res.ok) {
       let msg = "Failed to update asset";
@@ -751,6 +766,7 @@ export default function MainApp({ auth, onLogout }) {
         value: editForm.value,
         serial: editForm.serial,
       });
+      if (!updated) return;
 
       setShowEdit(false);
       setEditId(null);

@@ -8,15 +8,51 @@ import Login from "./components/login";
 const STORAGE_KEY = "assetdesk_auth";
 const API_BASE = "http://127.0.0.1:8000";
 
+function isTokenExpired(token) {
+  try {
+    if (!token) return true;
+
+    const payload = JSON.parse(
+      atob(
+        token
+          .split(".")[1]
+          .replace(/-/g, "+")
+          .replace(/_/g, "/")
+      )
+    );
+
+    if (typeof payload.exp !== "number") return true;
+
+    return Date.now() >= payload.exp * 1000;
+  } catch {
+    return true;
+  }
+}
+
 export default function App() {
   // Read auth info from localStorage on first load
   const [auth, setAuth] = useState(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
+
       if (!raw) return null;
-      return JSON.parse(raw);
+
+      const savedAuth = JSON.parse(raw);
+
+      const token =
+        savedAuth?.access_token ||
+        savedAuth?.accessToken ||
+        savedAuth?.token;
+
+      if (isTokenExpired(token)) {
+        localStorage.removeItem(STORAGE_KEY);
+        return null;
+      }
+
+      return savedAuth;
     } catch (e) {
       console.warn("Failed to parse auth from storage", e);
+      localStorage.removeItem(STORAGE_KEY);
       return null;
     }
   });
